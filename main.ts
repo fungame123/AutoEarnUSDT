@@ -1,25 +1,13 @@
 import { Bot, InlineKeyboard } from 'https://deno.land/x/grammy@v1.24.0/mod.ts'
 
 // 正式环境
-const botToken = '7412729421:AAGiaOhFa8y87-qewoXOcaU1eDPmMTIqjXY' // 小鹿币机器人token
-const botUrl = `https://t.me/FutureFun_earningwct_bot` // 机器人链接
-const miniAppUrl = 'https://t.me/FutureFun_earningwct_bot/FutureFun' // 小程序链接
-const groupUrl = 'https://t.me/FutureFunGenesisOfficial' // 群组链接
-const homeUrl = 'https://ff.zone' // 主页
-const walletUrl = 'https://ff.zone/pages/wallet' // 钱包
-const promoteUrl = 'https://ff.zone/pages/promote?mode=1' // 推广
-const welfareUrl = 'https://ff.zone/promote/welfare' // 发现金
-const luckToken = 'EAKQimQtSm2kFZmnMkMz' // FutureFun_earningwct_bot 抽奖token
-
-const channelUrl = 'https://t.me/FutureFunOfficial' // TG频道
-const paperUrl = 'https://ff-whitepaper.ff.zone' // 白皮书
+const botToken = '7412729421:AAGiaOhFa8y87-qewoXOcaU1eDPmMTIqjXY' // 小鹿币机器人ID
+const miniAppUrl = 'https://t.me/DigDeer_bot/AutoEarnUSDT' // 小鹿币小程序链接
+const luckToken = 'iV2SVTTTkXmVjtNBs0Lq' // haiyanstar_bot 抽奖token
 
 const bot = new Bot(botToken)
 // 快捷消息列表
 const commandList = [{ command: 'start', description: 'Start the bot' }]
-
-// 指令列表
-const instructList = ['start']
 
 // 字符串转base64
 const encode = (str) => {
@@ -35,24 +23,25 @@ const decode = (base64) => {
   return str
 }
 
-// 答复数据
-const languageObj = {
-  start: {
-    photo: 'https://test-h5.ximi.world/static/img/telegram/digdeer.jpg',
-    caption:
-      '🔥🔥🔥 The platform coin airdrop is ready. Join early for the best offer! 🎉🎉🎉  \n\n📢 Share daily to invite friends for earning random USDT bonuses! Both you and your friend will gain benefit! Successful invitation and top-up get an extra 1 USDT bonus the next day! 📨💰  \n\n📢 Deposit ≥100 USDT get up to 20% bonus in WCT!  \n\nDeposit 100 USDT get 120 USDT (100 USDT + 20 USDT in WCT). The more you deposit, the more you earn, no upper limit! 💰💰  \n\nWhat are you waiting for? Come and join the future fun! 🚀🚀🚀',
-  },
-}
+// 7140201455 思琪  7344034452 海燕
+// 获取个人信息
+const me = await bot.api.getMe()
+console.log('【个人信息】', me)
 
-// start 指令
-const keyboard1 = new InlineKeyboard()
-  .webApp('💰USDT Bonus💰', welfareUrl)
-  .row()
-  .webApp('🎮Play now🎰', homeUrl)
+// 获取个人信息
+const updates = await bot.api.getUpdates()
+console.log('【更新信息】', updates)
+
+// 获取按钮信息
+const chatMenuButton = await bot.api.getChatMenuButton()
+console.log('【按钮信息】', chatMenuButton)
 
 await bot.api.setMyCommands(commandList)
 
-bot.command(instructList, async (ctx: any) => {
+// start 指令
+const keyboard = new InlineKeyboard().url('💰Auto-earn📈', miniAppUrl)
+
+bot.command('start', async (ctx: any) => {
   const {
     text,
     from: { id: chatId },
@@ -63,31 +52,31 @@ bot.command(instructList, async (ctx: any) => {
   console.log('【消息来源】', chatId)
   console.log('【邀请链接】', inviteUrl)
 
-  if (text.includes('start')) {
-    if (text.includes('Base64_')) {
-      const params = text.replace('/start Base64_', '')
-      console.log(params)
-      const str = decode(params)
-      console.log(str)
+  if (text.includes('Base64_')) {
+    const params = text.replace('/start Base64_', '')
+    console.log(params)
+    const str = decode(params)
+    console.log(str)
 
-      // 使用fetch发送GET请求
-      fetch('https://api.moquest.xyz/partner/bot/callback?' + str, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'LDM-API-TOKEN': luckToken,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => console.log('【回调成功】', data))
-        .catch((error) => console.error('【回调失败】', error))
-    }
-    await bot.api.sendAnimation(chatId, '', {
-      parse_mode: 'HTML',
-      reply_markup: keyboard1,
-      ...languageObj?.start,
+    // 使用fetch发送GET请求
+    fetch('https://api.moquest.xyz/partner/bot/callback?' + str, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'LDM-API-TOKEN': luckToken,
+      },
     })
+      .then((response) => response.json())
+      .then((data) => console.log('【回调成功】', data))
+      .catch((error) => console.error('【回调失败】', error))
   }
+  await bot.api.sendPhoto(chatId, '', {
+    parse_mode: 'HTML',
+    reply_markup: keyboard,
+    photo: 'https://test-h5.ximi.world/static/img/telegram/digdeer.jpg',
+    caption:
+      'The most promising project in the TON ecosystem for the second half of 2024: 🌟 DigDeer 🌟\n\n🎮 Automatically earn DigDeerCoins every day!\n\n💎 Invite friends to get diamonds and unlock more rewards!\n\n💰 Earn up to 100 USDT worth of Deer Coins daily!\n\n🤝 DigDeerCoins will soon be available for USDT withdrawal (1DDC=0.000012USDT)\n\nJoin now to experience effortless gaming and earn USDT rewards!',
+  })
 })
 
 // 错误提示
