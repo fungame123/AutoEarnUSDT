@@ -46,15 +46,11 @@ bot.command('start', async (ctx: any) => {
     text,
     from: { id: chatId },
   } = ctx.message
-  const str = encode(`id=${chatId}`)
-  const inviteUrl = `${miniAppUrl}?startapp=p_str${str}`
   console.log('【消息信息】', ctx.message)
   console.log('【消息来源】', chatId)
-  console.log('【邀请链接】', inviteUrl)
 
   if (text.includes('Base64_')) {
     const params = text.replace('/start Base64_', '')
-    console.log(params)
     const str = decode(params)
     console.log(str)
 
