@@ -69,7 +69,7 @@ bot.command('start', async (ctx: any) => {
   await bot.api.sendPhoto(chatId, '', {
     parse_mode: 'HTML',
     reply_markup: keyboard,
-    photo: 'https://test-h5.ximi.world/static/img/telegram/digdeer.jpg',
+    photo: 'https://test-h5.ximi.world/static/img/telegram/ddc.jpg',
     caption:
       'The most promising project in the TON ecosystem for the second half of 2024: 🌟 DigDeer 🌟\n\n🎮 Automatically earn DigDeerCoins every day!\n\n💎 Invite friends to get diamonds and unlock more rewards!\n\n💰 Earn up to 100 USDT worth of Deer Coins daily!\n\n🤝 DigDeerCoins will soon be available for USDT withdrawal (1DDC=0.000012USDT)\n\nJoin now to experience effortless gaming and earn USDT rewards!',
   })
